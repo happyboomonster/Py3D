@@ -13,8 +13,8 @@ if(PYTHON2 != True):
 model = []
 
 #all the colors available for use
-colors = ["red","blue","green","yellow","orange","brown","black","pink"]
-matchingvalues = [[255,0,0],[0,0,255],[0,255,0],[255,255,0],[255,200,0],[100,100,0],[50,40,0],[0,0,0],[255,0,255]]
+colors = ["red","blue","green","yellow","orange","brown","black","pink","grey"]
+matchingvalues = [[255,0,0],[0,0,255],[0,255,0],[255,255,0],[255,200,0],[100,100,0],[0,0,0],[255,0,255],[100,100,100]]
 
 #we don't want to get out of here this fast, do we?
 Exit = False

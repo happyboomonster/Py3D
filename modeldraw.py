@@ -6,7 +6,7 @@ import math
 #******IMPORTANT********#
 PYTHON2 = True
 
-VanishingPoint = 0.003 #changes the distance of the vanishing point
+VanishingPoint = 0.001 #changes the distance of the vanishing point
 #function to produce a proper triangle coordinate set for pygame
 def maketriangle(points):
     global VanishingPoint
@@ -153,6 +153,12 @@ if(PYTHON2):
 else:
     pass
 
+#get an offset point for rotation
+if(PYTHON2):
+    rotateoffset = eval(raw_input("Please give an XYZ rotation offset as a 3 item list: "))
+else:
+    rotateoffset = eval(input("Please give an XYZ rotation offset as a 3 item list: "))
+
 #create a screen object
 screen = pygame.display.set_mode([256,256], pygame.SCALED)
 
@@ -168,12 +174,6 @@ pygame.key.set_repeat(200,10)
 
 #mouse grab goes brrrr
 pygame.event.set_grab(True)
-
-#get an offset point for rotation
-if(PYTHON2):
-    rotateoffset = eval(raw_input("Please give an XYZ rotation offset as a 3 item list: "))
-else:
-    rotateoffset = eval(input("Please give an XYZ rotation offset as a 3 item list: "))
 
 while True:
     screen.fill([0,0,0]) #fill the screen with black to start
