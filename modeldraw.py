@@ -3,20 +3,20 @@ import pygame
 import time
 import math
 
-#******IMPORTANT********#
-PYTHON2 = True
+screensize = [256,256]
 
 VanishingPoint = 0.001 #changes the distance of the vanishing point
 #function to produce a proper triangle coordinate set for pygame
 def maketriangle(points):
     global VanishingPoint
+    global screensize
     newpoints = []
     for point in points:
         tmppoint = []
         tmppoint.append(point[0])
         tmppoint.append(point[1])
-        tmppoint[0] -= (tmppoint[0] - 127) * point[2] * VanishingPoint
-        tmppoint[1] -= (tmppoint[1] - 127) * point[2] * VanishingPoint
+        tmppoint[0] -= (tmppoint[0] - (screensize[0] / 2.0)) * point[2] * VanishingPoint
+        tmppoint[1] -= (tmppoint[1] - (screensize[1] / 2.0)) * point[2] * VanishingPoint
         tmppoint[0] = int(tmppoint[0])
         tmppoint[1] = int(tmppoint[1])
         newpoints.append(tmppoint[:])
@@ -142,25 +142,19 @@ def drawmodel(model,pos):
         pygame.draw.polygon(screen,model[triangles][0],maketriangle(model[triangles][1]))
 
 #we get a filename of a model
-if(PYTHON2):
-    filename = raw_input("Give me a object's filename: ")
-    try:
-        mifile = open(filename,"r+")
-    except IOError:
-        print("This isn't a valid filename. Exiting...")
-        raise IOError
-    obj = pickle.load(mifile)
-else:
-    pass
+filename = input("Give me a object's filename: ")
+try:
+    mifile = open(filename,"rb")
+except IOError:
+    print("This isn't a valid filename. Exiting...")
+    raise IOError
+obj = pickle.load(mifile)
 
 #get an offset point for rotation
-if(PYTHON2):
-    rotateoffset = eval(raw_input("Please give an XYZ rotation offset as a 3 item list: "))
-else:
-    rotateoffset = eval(input("Please give an XYZ rotation offset as a 3 item list: "))
+rotateoffset = eval(input("Please give an XYZ rotation offset as a 3 item list: "))
 
 #create a screen object
-screen = pygame.display.set_mode([256,256], pygame.SCALED)
+screen = pygame.display.set_mode([256,256], pygame.RESIZABLE)
 
 #clock our FPS
 clock = pygame.time.Clock()
@@ -173,7 +167,7 @@ rotate = [0,0,0]
 pygame.key.set_repeat(200,10)
 
 #mouse grab goes brrrr
-pygame.event.set_grab(True)
+#pygame.event.set_grab(True)
 
 while True:
     screen.fill([0,0,0]) #fill the screen with black to start
@@ -189,6 +183,10 @@ while True:
     #get our FPS
     clock.tick(120)
     pygame.display.set_caption(str(int(clock.get_fps())))
+
+    #get our screen height/width
+    screensize[0] = screen.get_width()
+    screensize[1] = screen.get_height()
 
     #event loop
     for event in pygame.event.get():
